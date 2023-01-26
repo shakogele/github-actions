@@ -33,7 +33,6 @@ jobs:
           CI: true
 
       - name: Build the app
-        if: github.branch_name == 'master'
         run: npm run build
 
       - name: Install Surge
