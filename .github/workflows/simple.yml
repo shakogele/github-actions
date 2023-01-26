@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v3.3.0
 
       - name: Set Up project's NodeJS Version
         shell: bash -l {0}
@@ -22,7 +22,7 @@ jobs:
         run: node --version && npm --version
 
       - name: Cache dependencies
-        uses: actions/cache@v1
+        uses: actions/cache@v3.2.3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-tdms-${{ hashFiles('**/package-lock.json') }}
