@@ -33,10 +33,14 @@ jobs:
           CI: true
 
       - name: Build the app
-        run: npm run build
+        if: github.branch_name == 'master'
+        run: npm run build:dev
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+      - name: Install Surge
+        run: npm install -g surge
+
+      - name: Deploy to Surge
+        run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
