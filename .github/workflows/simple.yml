@@ -34,7 +34,7 @@ jobs:
 
       - name: Build the app
         if: github.branch_name == 'master'
-        run: npm run build:dev
+        run: npm run build
 
       - name: Install Surge
         run: npm install -g surge
