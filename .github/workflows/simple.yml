@@ -15,7 +15,7 @@ jobs:
 
       - name: Set Up correct NodeJS Version
         shell: bash -l {0}
-        run: nvm install
+        run: nvm install && nvm use
 
       - name: Check NodeJS and NPM Versions
         run: node --version && npm --version
