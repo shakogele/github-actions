@@ -26,7 +26,7 @@ jobs:
         with:
           path: ~/.npm
           key: ${{ runner.os }}-tdms-${{ hashFiles('**/package-lock.json') }}
-          restore-key: |
+          restore-keys: |
             ${{ runner.os }}-tdms-
 
       - name: Install dependencies
