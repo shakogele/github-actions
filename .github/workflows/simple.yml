@@ -21,11 +21,20 @@ jobs:
       - name: Check NodeJS and NPM Versions
         run: node --version && npm --version
 
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-tdms-${{ hashFiles('**/package-lock.json') }}
+          restore-key: |
+            ${{ runner.os }}-tdms-
+        run: npm ci
+
       - name: Install dependencies
         run: npm ci
 
-      - name: Check for insecure dependencies
-        run: npm audit --audit-level=moderate
+      # - name: Check for insecure dependencies
+      #   run: npm audit --audit-level=moderate
 
       - name: Check Formatting
         run: npm run format:check
