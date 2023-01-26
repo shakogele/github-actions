@@ -17,6 +17,9 @@ jobs:
         shell: bash -l {0}
         run: nvm use
 
+      - name: Check NodeJS and NPM Versions
+        run: node --version && npm --version
+
       - name: Install dependencies
         run: npm ci
 
