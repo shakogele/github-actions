@@ -46,6 +46,16 @@ jobs:
       - name: Install Surge
         run: npm install -g surge
 
+      - name: Remove Snapshot from package version
+        if: github.ref == 'refs/heads/master'
+        run: sed -i -r 's/-SNAPSHOT//g' package.json
+
+      - name: Run BD scan
+        run: echo BD scan
+
+      - name: Run SonarQube SCAN
+        run: echo SonarQube
+
       - name: Build with DEV configuration and Deploy to DEV
         if: github.ref == 'refs/heads/develop'
         run: npm run build:dev && npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
