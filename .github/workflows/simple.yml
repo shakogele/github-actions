@@ -47,21 +47,21 @@ jobs:
         run: npm install -g surge
 
       - name: Build with DEV configuration and Deploy to DEV
-        if: github.ref == 'refs/head/develop'
+        if: github.ref == 'refs/heads/develop'
         run: npm run build:dev && npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
       - name: Build with INT configuration and Deploy to INT
-        if: github.ref == 'refs/head/int'
+        if: github.ref == 'refs/heads/int'
         run: npm run build:int && npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
       - name: Build with PROD configuration and Deploy to PROD
-        if: github.ref == 'refs/head/master'
+        if: github.ref == 'refs/heads/master'
         run: npm run build && npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
