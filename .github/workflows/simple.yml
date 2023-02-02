@@ -24,6 +24,9 @@ jobs:
       - name: Branch name
         run: echo ${{ github.ref_name }}
 
+      - name: Branch name2
+        run: echo ${{ github.ref }}
+
       - name: Cache dependencies
         uses: actions/cache@v3.2.3
         with:
