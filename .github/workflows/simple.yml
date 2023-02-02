@@ -21,6 +21,9 @@ jobs:
       - name: Check NodeJS and NPM Versions
         run: node --version && npm --version
 
+      - name: Branch name
+        run: echo ${{ github.ref_name }}
+
       - name: Cache dependencies
         uses: actions/cache@v3.2.3
         with:
@@ -105,7 +108,12 @@ jobs:
         run: java --version
 
       - name: Install Maven
-        run: sudo apt-get install maven -y
-
+        run: |
+          wget https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+          tar -xvf apache-maven-3.6.3-bin.tar.gz
+          mv apache-maven-3.6.3 /opt/
+          M2_HOME='/opt/apache-maven-3.6.3'
+          PATH="$M2_HOME/bin:$PATH"
+          export PATH
       - name: Show Maven Version
         run: mvn -version
