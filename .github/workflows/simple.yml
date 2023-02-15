@@ -91,16 +91,7 @@ jobs:
         if: ${{ env.BUILD_TARGET }}
         run: echo build:${{ env.BUILD_TARGET }}
         env:
-          BUILD_TARGET: ${{ env.BUILD_TARGET }}
-
-      - name: Trigger ${{ env.BUILD_TARGET }} deployment
-        if: ${{ env.BUILD_TARGET }}
-        run: echo ${{ environment }}
-        with:
-          tenant: TDMS
-          source-dir: ./dist/
-          environment: ${{ env.BUILD_TARGET || 'prod' }}
-          folder: plugin
+          BUILD_TARGET: ${{ env.BUILD_TARGET || 'prod'}}
 
       - name: Publish Artifact
         run: echo Publish Artifact
