@@ -89,9 +89,10 @@ jobs:
 
       - name: Build with ${{ env.BUILD_TARGET }} configuration
         if: ${{ env.BUILD_TARGET }}
-        run: echo build${{ env.BUILD_TARGET }}
+        run: echo build${{ env.BUILD_TARGET && env.COLON env.BUILD_TARGET || ''  }}
         env:
-          BUILD_TARGET: ${{ env.BUILD_TARGET && ':'env.BUILD_TARGET || '' }}
+          BUILD_TARGET: ${{ env.BUILD_TARGET }}
+          COLON: ":"
 
       - name: Publish Artifact
         run: echo Publish Artifact
