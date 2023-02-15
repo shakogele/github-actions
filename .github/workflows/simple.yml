@@ -75,7 +75,7 @@ jobs:
               echo "BUILD_TARGET=" >> $GITHUB_ENV
               ;;
             "CINOWIO-26055")
-              echo "BUILD_TARGET=" >> $GITHUB_ENV
+              echo "BUILD_TARGET=dev" >> $GITHUB_ENV
               ;;
           esac
 
