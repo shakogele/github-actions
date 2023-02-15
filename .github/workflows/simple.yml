@@ -89,33 +89,33 @@ jobs:
 
       - name: Build with ${{ env.BUILD_TARGET }} configuration
         if: ${{ env.BUILD_TARGET }}
-        run: echo build:${{ env.BUILD_TARGET }}
+        run: echo build${{ env.BUILD_TARGET && :env.BUILD_TARGET || '' }}
         env:
-          BUILD_TARGET: ${{ env.BUILD_TARGET || 'prod'}}
+          BUILD_TARGET: ${{ env.BUILD_TARGET}}
 
       - name: Publish Artifact
         run: echo Publish Artifact
 
-      - name: Trigger Dev deployment
-        if: github.ref == 'refs/heads/develop'
-        run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
-        env:
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      # - name: Trigger Dev deployment
+      #   if: github.ref == 'refs/heads/develop'
+      #   run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
+      #   env:
+      #     SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+      #     SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
-      - name: Trigger Int deployment
-        if: github.ref == 'refs/heads/int'
-        run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
-        env:
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      # - name: Trigger Int deployment
+      #   if: github.ref == 'refs/heads/int'
+      #   run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
+      #   env:
+      #     SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+      #     SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
-      - name: Trigger Prod deployment
-        if: github.ref == 'refs/heads/master'
-        run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
-        env:
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      # - name: Trigger Prod deployment
+      #   if: github.ref == 'refs/heads/master'
+      #   run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
+      #   env:
+      #     SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+      #     SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
       - name: Send Notification to MS Teams
         run: echo Send Notification to MS Teams
