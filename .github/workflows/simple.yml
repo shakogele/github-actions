@@ -87,17 +87,20 @@ jobs:
         env:
           BUILD_TARGET: ${{ env.BUILD_TARGET }}
 
-      - name: Build with DEV configuration and Deploy to DEV
-        if: github.ref == 'refs/heads/develop'
-        run: npm run build:dev
+      - name: Build with ${{ env.BUILD_TARGET }} configuration
+        if: ${{ env.BUILD_TARGET }}
+        run: echo build:${{ env.BUILD_TARGET }}
+        env:
+          BUILD_TARGET: ${{ env.BUILD_TARGET }}
 
-      - name: Build with INT configuration and Deploy to INT
-        if: github.ref == 'refs/heads/int'
-        run: npm run build:int
-
-      - name: Build with PROD configuration and Deploy to PROD
-        if: github.ref == 'refs/heads/master'
-        run: npm run build
+      - name: Trigger ${{ env.BUILD_TARGET }} deployment
+        if: ${{ env.BUILD_TARGET }}
+        run: echo ${{ environment }}
+        with:
+          tenant: TDMS
+          source-dir: ./dist/
+          environment: ${{ env.BUILD_TARGET || 'prod' }}
+          folder: plugin
 
       - name: Publish Artifact
         run: echo Publish Artifact
