@@ -2,9 +2,9 @@ name: CI/CD
 
 on:
   pull_request:
-    branches: [develop, int, master]
+    branches: [CINOWIO-26055, develop, int, master]
   push:
-    branches: [develop, int, master]
+    branches: [CINOWIO-26055, develop, int, master]
 
 jobs:
   build-and-deploy:
@@ -20,6 +20,12 @@ jobs:
 
       - name: Check NodeJS and NPM Versions
         run: node --version && npm --version
+
+      - name: Branch name
+        run: echo ${{ github.ref_name }}
+
+      - name: Branch name2
+        run: echo ${{ github.ref }}
 
       - name: Cache dependencies
         uses: actions/cache@v3.2.3
@@ -53,26 +59,83 @@ jobs:
       - name: Run BD scan
         run: echo BD scan
 
+      - name: Set ENV variable
+        id: env
+        if: contains(fromJSON('["develop", "int", "master", "CINOWIO-26055"]'), github.ref_name)
+        shell: bash
+        run: |
+          case "${{ github.ref_name }}" in
+            "develop")
+              echo "BUILD_TARGET=dev" >> $GITHUB_ENV
+              ;;
+            "int")
+              echo "BUILD_TARGET=int" >> $GITHUB_ENV
+              ;;
+            "master")
+              echo "BUILD_TARGET=" >> $GITHUB_ENV
+              ;;
+            "CINOWIO-26055")
+              echo "BUILD_TARGET=dev" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Show "BUILD_TARGET"
+        run: echo ${{ steps.env.outputs.BUILD_TARGET }}
+
       - name: Run SonarQube SCAN
-        run: echo SonarQube
+        run: echo SonarQube && echo ${{ env.BUILD_TARGET }}
+        env:
+          BUILD_TARGET: ${{ env.BUILD_TARGET }}
 
-      - name: Build with DEV configuration and Deploy to DEV
+      - name: Build with ${{ env.BUILD_TARGET }} configuration
+        if: ${{ env.BUILD_TARGET }}
+        run: echo build:${{ env.BUILD_TARGET }}
+        env:
+          BUILD_TARGET: ${{ env.BUILD_TARGET || 'prod'}}
+
+      - name: Publish Artifact
+        run: echo Publish Artifact
+
+      - name: Trigger Dev deployment
         if: github.ref == 'refs/heads/develop'
-        run: npm run build:dev && npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
+        run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
-      - name: Build with INT configuration and Deploy to INT
+      - name: Trigger Int deployment
         if: github.ref == 'refs/heads/int'
-        run: npm run build:int && npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
+        run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
 
-      - name: Build with PROD configuration and Deploy to PROD
+      - name: Trigger Prod deployment
         if: github.ref == 'refs/heads/master'
-        run: npm run build && npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
+        run: npx surge --project ./build --domain https://bouncy-amusement.surge.sh/
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+
+      - name: Send Notification to MS Teams
+        run: echo Send Notification to MS Teams
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "adopt"
+
+      - name: Show Java Verions
+        run: java --version
+
+      - name: Install Maven
+        run: |
+          wget https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+          tar -xvf apache-maven-3.6.3-bin.tar.gz
+          mv apache-maven-3.6.3 /opt/
+          M2_HOME='/opt/apache-maven-3.6.3'
+          PATH="$M2_HOME/bin:$PATH"
+          export PATH
+      - name: Show Maven Version
+        run: mvn -version

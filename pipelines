@@ -1,25 +1,6 @@
 /**
   Clean
-  Checkout
-  IF(env.BRANCH_NAME == 'master'){
-  // Remove Snapshot from package version
-  }
-  Report Versions ({
-    sh "node --version"
-    sh "npm --version"
-  })
-  Install dependencies (npm ci)
-  Check for insecure dependencies(npm audit --audit-level=moderate)
-  IF(env.BRANCH_NAME === "master"){
-    npm run build
-  }
-  ELSE IF(env.BRANCH_NAME === "int"){
-    npm run build:int
-  }
-  ELSE IF(env.BRANCH_NAME === "dev"){
-    npm run build:dev
-  }
-  TEST (npm run test)
+
   IF( env.BRANCH_NAME == 'develop' || env.BRANCH_NAME == 'master') { 
     //RUN BLACKDUCK SCAN
   }
