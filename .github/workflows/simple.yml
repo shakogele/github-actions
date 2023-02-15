@@ -88,7 +88,7 @@ jobs:
           BUILD_TARGET: ${{ env.BUILD_TARGET }}
 
       - name: Build with ${{ env.BUILD_TARGET }} configuration
-        if: ${{ env.BUILD_TARGET }}
+        if: contains(fromJSON('["develop", "int", "master", "CINOWIO-26055"]'), github.ref_name)
         run: echo ${{ format('build{0}{1}', env.BUILD_TARGET && ':' || '', env.BUILD_TARGET || '') }}
         env:
           BUILD_TARGET: ${{ env.BUILD_TARGET }}
