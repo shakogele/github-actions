@@ -80,7 +80,7 @@ jobs:
           esac
 
       - name: Show "BUILD_TARGET"
-        run: echo ${{ steps.black-duck-secret.outputs.BLACKDUCK_TOKEN }}
+        run: echo ${{ steps.env.outputs.BUILD_TARGET }}
 
       - name: Run SonarQube SCAN
         run: echo SonarQube && echo ${{ env.BUILD_TARGET }}
