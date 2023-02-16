@@ -66,16 +66,16 @@ jobs:
         run: |
           case "${{ github.ref_name }}" in
             "develop")
-              echo "BUILD_TARGET=dev" >> $GITHUB_ENV
+              echo "BUILD_TARGET=dev" >> "${GITHUB_ENV}"
               ;;
             "int")
-              echo "BUILD_TARGET=int" >> $GITHUB_ENV
+              echo "BUILD_TARGET=int" >> "${GITHUB_ENV}"
               ;;
             "master")
-              echo "BUILD_TARGET=" >> $GITHUB_ENV
+              echo "BUILD_TARGET=" >> "${GITHUB_ENV}"
               ;;
             "CINOWIO-26055")
-              echo "BUILD_TARGET=dev" >> $GITHUB_ENV
+              echo "BUILD_TARGET=dev" >> "${GITHUB_ENV}"
               ;;
           esac
 
@@ -83,9 +83,12 @@ jobs:
         run: echo ${{ steps.env.outputs.BUILD_TARGET }}
 
       - name: Run SonarQube SCAN
-        run: echo SonarQube && echo "build${BUILD_TARGET:+:${BUILD_TARGET}}"
+        run: npm run "build${BUILD_TARGET:+:${BUILD_TARGET}}"
         env:
           BUILD_TARGET: ${{ env.BUILD_TARGET }}
+
+      - name: Show "BUILD_TARGET2"
+        run: echo ${{ steps.env.outputs.BUILD_TARGET }}
 
       - name: Build with ${{ env.BUILD_TARGET }} configuration
         if: contains(fromJSON('["develop", "int", "master", "CINOWIO-26055"]'), github.ref_name)
