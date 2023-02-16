@@ -83,7 +83,7 @@ jobs:
         run: echo ${{ steps.env.outputs.BUILD_TARGET }}
 
       - name: Run SonarQube SCAN
-        run: echo SonarQube && echo ${{ env.BUILD_TARGET }}
+        run: echo SonarQube && echo npm run "build${env.BUILD_TARGET:+:${env.BUILD_TARGET}}"
         env:
           BUILD_TARGET: ${{ env.BUILD_TARGET }}
 
