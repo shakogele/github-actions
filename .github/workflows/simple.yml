@@ -63,7 +63,7 @@ jobs:
         id: env
         shell: bash
         run: |
-          echo 'NODE_VERSION=14.6' >> "${GITHUB_ENV}"
+          echo "NODE_VERSION=$(cat .nvmrc)" >> "${GITHUB_ENV}"
           case "${{ github.ref_name }}" in
             "develop")
               echo 'BUILD_TARGET=dev' >> "${GITHUB_ENV}"
