@@ -79,7 +79,7 @@ jobs:
           esac
 
       - name: Show "BUILD_TARGET"
-        run: echo "${ TARGET_NAME }" && echo nodeVersion is "${ NODE_VERSION }" && echo BUILD_TARGET is "${ BUILD_TARGET }"
+        run: echo "build${BUILD_TARGET:+:${NODE_VERSION}:+:${TARGET_NAME}}"
         env:
           BUILD_TARGET: ${{ env.BUILD_TARGET }}
           NODE_VERSION: ${{ env.NODE_VERSION }}
