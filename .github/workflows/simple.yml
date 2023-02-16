@@ -63,7 +63,6 @@ jobs:
         id: env
         shell: bash
         run: |
-          echo 'NODE_VERSION=$(cat .nvmrc)'
           case "${{ github.ref_name }}" in
             "develop")
               echo 'BUILD_TARGET=dev' >> "${GITHUB_ENV}"
@@ -80,7 +79,7 @@ jobs:
           esac
 
       - name: Show "BUILD_TARGET"
-        run: echo nodeVersion is "${{ NODE_VERSION }}" && echo BUILD_TARGET is "${{ BUILD_TARGET }}"
+        run: echo "${ TARGET_NAME }" && echo nodeVersion is "${ NODE_VERSION }" && echo BUILD_TARGET is "${ BUILD_TARGET }"
         env:
           BUILD_TARGET: ${{ env.BUILD_TARGET }}
           NODE_VERSION: ${{ env.NODE_VERSION }}
