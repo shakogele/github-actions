@@ -61,7 +61,6 @@ jobs:
 
       - name: Set ENV variable
         id: env
-        if: contains(fromJSON('["develop", "int", "master", "CINOWIO-26055"]'), github.ref_name)
         shell: bash
         run: |
           echo 'NODE_VERSION=$(cat .nvmrc)'
@@ -81,7 +80,7 @@ jobs:
           esac
 
       - name: Show "BUILD_TARGET"
-        run: echo "${{ TARGET_NAME }}" && echo nodeVersion is "${{ NODE_VERSION }}" && echo BUILD_TARGET is "${{ BUILD_TARGET }}"
+        run: echo nodeVersion is "${{ NODE_VERSION }}" && echo BUILD_TARGET is "${{ BUILD_TARGET }}"
         env:
           BUILD_TARGET: ${{ env.BUILD_TARGET }}
           NODE_VERSION: ${{ env.NODE_VERSION }}
