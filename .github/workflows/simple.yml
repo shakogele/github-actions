@@ -63,15 +63,23 @@ jobs:
         id: env
         shell: bash
         run: |
+          echo 'NODE_VERSION=14.6' >> "${GITHUB_ENV}"
           case "${{ github.ref_name }}" in
             "develop")
               echo 'BUILD_TARGET=dev' >> "${GITHUB_ENV}"
+              echo 'TARGET_NAME=DEVELOPMENT' >> "${GITHUB_ENV}"
               ;;
             "int")
               echo "BUILD_TARGET=int" >> "${GITHUB_ENV}"
+              echo 'TARGET_NAME=INTEGRATION' >> "${GITHUB_ENV}"
               ;;
             "master")
               echo "BUILD_TARGET=" >> "${GITHUB_ENV}"
+              echo 'TARGET_NAME=PRODUCTION' >> "${GITHUB_ENV}"
+              ;;
+            "CINOWIO-26055")
+              echo "BUILD_TARGET=dev" >> "${GITHUB_ENV}"
+              echo 'TARGET_NAME=DEVELOPMENT' >> "${GITHUB_ENV}"
               ;;
           esac
 
