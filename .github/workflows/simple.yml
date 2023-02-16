@@ -81,7 +81,11 @@ jobs:
           esac
 
       - name: Show "BUILD_TARGET"
-        run: echo ${{ steps.env.outputs.BUILD_TARGET }} && echo nodeVersion is "${{ env.NODE_VERSION }}" && echo BUILD_TARGET is "${{ env.BUILD_TARGET }}"
+        run: echo ${{ TARGET_NAME }} && echo nodeVersion is "${{ NODE_VERSION }}" && echo BUILD_TARGET is "${{ BUILD_TARGET }}"
+        env:
+          BUILD_TARGET: ${{ env.BUILD_TARGET }}
+          NODE_VERSION: ${{ env.NODE_VERSION }}
+          TARGET_NAME: ${{ env.TARGET_NAME }}
 
       - name: Run SonarQube SCAN
         run: npm run "build${BUILD_TARGET:+:${BUILD_TARGET}}"
